@@ -18,10 +18,21 @@ class Node
     # and removes self from list.
   end
 
+
+  # def inspect
+  #   {key}
+  # end 
+
 end
 
 class LinkedList
+  attr_accessor :head, :tail
+  include Enumerable
   def initialize
+    @head = Node.new
+    @tail = Node.new
+    @head.next = @tail
+    @tail.prev = @head
   end
 
   def [](i)
@@ -30,30 +41,71 @@ class LinkedList
   end
 
   def first
+    @head.next
   end
 
   def last
+    @tail.prev
   end
 
   def empty?
-  end
-
-  def get(key)
+    @head.next == @tail
   end
 
   def include?(key)
+    node_check = @head
+    while node_check != @tail
+      if node_check.next.key == key
+        return true  
+      else node_check = node_check.next
+      end 
+    end
+    false 
   end
 
   def append(key, val)
+    prev_node = @tail.prev
+    new_node = Node.new(key, val)
+    prev_node.next = new_node
+    tail.prev = new_node
+    new_node.next = @tail
+    new_node.prev = prev_node
   end
 
   def update(key, val)
+    self.each do |node|
+      if node.key == key
+        node.val = val
+      end
+    end
   end
+
+  def get(key)
+    self.each do |node|
+      if node.key == key
+        return node.val
+      end
+    end
+  end 
 
   def remove(key)
+    self.each do |node|
+      if node.key == key
+        prev_node = node.prev
+        next_node = node.next
+        prev_node.next = next_node
+        next_node.prev = prev_node
+      end
+    end
   end
 
-  def each
+  def each(&prc)
+    current_node = @head.next
+    while current_node != @tail
+      prc.call(current_node)
+      current_node = current_node.next
+    end 
+    # self
   end
 
   # uncomment when you have `each` working and `Enumerable` included
