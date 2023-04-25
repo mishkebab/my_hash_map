@@ -12,16 +12,15 @@ class Node
   def to_s
     "#{@key}: #{@val}"
   end
+  def inspect
+    {"key" => @key, "value" =>@val }.inspect
+  end
+
 
   def remove
     # optional but useful, connects previous link to next link
     # and removes self from list.
   end
-
-
-  # def inspect
-  #   {key}
-  # end 
 
 end
 
@@ -39,6 +38,11 @@ class LinkedList
     each_with_index { |node, j| return node if i == j }
     nil
   end
+  def print
+    self.each{|node| p node}
+    true
+  end
+
 
   def first
     @head.next
@@ -66,8 +70,9 @@ class LinkedList
   def append(key, val)
     prev_node = @tail.prev
     new_node = Node.new(key, val)
+    p new_node
     prev_node.next = new_node
-    tail.prev = new_node
+    @tail.prev = new_node
     new_node.next = @tail
     new_node.prev = prev_node
   end

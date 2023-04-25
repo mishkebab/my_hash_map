@@ -12,12 +12,21 @@ class HashMap
   end
 
   def set(key, val)
+    if @store[bucket(key)].include?(key)
+      @store[bucket(key)].update(key,val)
+    else
+      @store[bucket(key)].append(key,val)
+    end
   end
 
   def get(key)
   end
 
   def delete(key)
+  end
+  def arr_print
+    @store.each{|list| list.print}
+    return true
   end
 
   def each
@@ -34,7 +43,7 @@ class HashMap
   alias_method :[], :get
   alias_method :[]=, :set
 
-  private
+  # private
 
   def num_buckets
     @store.length
@@ -44,6 +53,7 @@ class HashMap
   end
 
   def bucket(key)
+    key.hash % num_buckets
     # optional but useful; return the bucket corresponding to `key`
   end
 end
