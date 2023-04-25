@@ -9,6 +9,10 @@ class HashMap
   end
 
   def include?(key)
+    @store.each do |bucket|
+      return true if bucket.get(key)
+    end
+    false 
   end
 
   def set(key, val)
@@ -20,6 +24,10 @@ class HashMap
   end
 
   def get(key)
+    @store.each do |bucket|
+      bucket.get(key)
+    end
+    false 
   end
 
   def delete(key)
